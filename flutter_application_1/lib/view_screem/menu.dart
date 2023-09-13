@@ -19,8 +19,8 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.network(
-              '../img/LogoLT.png',
+            Image.asset(
+              'assets/LogoLT.png',
               width: 200,
               height: 200,
             ),
@@ -53,8 +53,8 @@ class MenuLateral extends StatelessWidget {
                   children: [
                     Align(
                     alignment: Alignment.center,
-                    child: Image.network(
-                      '../img/LogoLT.png',
+                    child: Image.asset(
+                      'assets/LogoLT.png',
                       width: 200,
                       height: 200,
                     ),
@@ -77,50 +77,55 @@ class MenuLateral extends StatelessWidget {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.home),
             title: const Text("Home"),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
+            leading: const Icon(Icons.business),
             title: const Text("Servicio"),
             onTap: () {
               Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ServicioP()),
+              MaterialPageRoute(builder: (context) => const ServicioP()),
                   );
             },
           ),
           ListTile(
+            leading: const Icon(Icons.shopping_cart),
             title: const Text("Producto"),
             onTap: () {
               Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProductoP()),
+              MaterialPageRoute(builder: (context) => const ProductoP()),
                   );
               
             },
           ),
           ListTile(
+            leading: const Icon(Icons.card_giftcard),
             title: const Text("Paquete"),
             onTap: () {
               Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Home()),
+              MaterialPageRoute(builder: (context) => const Home()),
                   );
             },
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 180.0),
-            child: Divider()),
+            margin: const EdgeInsets.only(bottom: 180.0),
+            child: const Divider()),
           ListTile(
-            title: Text("Log Out"),
+            leading: const Icon(Icons.logout),
+            title: const Text("Log Out"),
             onTap: () {
               Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Registrar()),
+              MaterialPageRoute(builder: (context) => const Registrar()),
                   );
-              // Aquí puedes agregar la lógica para cerrar la sesión
+              
             },
           ),
         ],
