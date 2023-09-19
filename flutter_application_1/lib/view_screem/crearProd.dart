@@ -9,6 +9,7 @@ class CreateProducto extends StatefulWidget {
 }
 
 class _CreateProductoState extends State<CreateProducto> {
+  String? _errorText;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nombreController = TextEditingController();
   final TextEditingController _descripcionController = TextEditingController();
@@ -31,24 +32,88 @@ class _CreateProductoState extends State<CreateProducto> {
               TextFormField(
                 controller: _nombreController,
                 decoration: const InputDecoration(labelText: 'Nombre'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    
+                    setState(() {
+                      _errorText = 'Por favor, ingresa un nombre';
+                    });
+                    return 'Por favor, ingresa un nombre'; 
+                  }
+                  
+                  setState(() {
+                    _errorText = null;
+                  });
+                  return null;
+                },
               ),
+
+              
+
               TextFormField(
                 controller: _descripcionController,
                 decoration: const InputDecoration(labelText: 'Descripción'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    setState(() {
+                      _errorText = 'Por favor, ingresa una descripción';
+                    });
+                    return 'Por favor, ingresa una descripción'; 
+                  }
+                  
+                  setState(() {
+                    _errorText = null;
+                  });
+                  return null;
+                },
               ),
+
               TextFormField(
                 controller: _precioController,
                 decoration: const InputDecoration(labelText: 'Precio'),
                 keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    setState(() {
+                      _errorText = 'Por favor, ingresa un precio';
+                    });
+                    return 'Por favor, ingresa un precio'; 
+                  }
+                  
+                  setState(() {
+                    _errorText = null;
+                  });
+                  return null;
+                },
               ),
               TextFormField(
                 controller: _estadoController,
                 decoration: const InputDecoration(labelText: 'Estado'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    setState(() {
+                      _errorText = 'Ingrese el campo faltante';
+                    });
+                    return 'Por favor, ingresa un estado'; 
+                  }
+                  
+                  setState(() {
+                    _errorText = null;
+                  });
+                  return null;
+                },
+              ),
+              Text(
+                _errorText ?? '', 
+                style: TextStyle(color: Colors.red),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
-                  final Map<String, dynamic> crearProducto = {
+
+                
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  final Map<String, dynamic> CreateProducto = {
                     'nombre': _nombreController.text,
                     'descripcion': _descripcionController.text,
                     'precio': _precioController.text,
@@ -57,7 +122,7 @@ class _CreateProductoState extends State<CreateProducto> {
 
                   final api = new Producto();
                   try {
-                    await api.newRegistro(crearProducto);
+                    await api.newRegistro(CreateProducto);
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const ProductoP()),
@@ -65,26 +130,27 @@ class _CreateProductoState extends State<CreateProducto> {
                   } catch (e) {
                     print('El registro no fue exitoso');
                   }
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.deepPurple,
-                ),
-                child: const Text('Crear'),
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.deepPurple,
               ),
-              const SizedBox(height: 10),
+              child: const Text('Crear'),
+            ),
+            const SizedBox(height: 10),
               TextButton(
                 onPressed: () {
                   Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => MenuLateral()),
-          );
+                );
                 },
                 style: TextButton.styleFrom(
                   primary: Colors.deepPurple,
                 ),
                 child: const Text('Regresar'),
               ),
-            ],
+            ],  
           ),
         ),
       ),

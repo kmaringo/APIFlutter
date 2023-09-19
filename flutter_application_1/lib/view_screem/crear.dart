@@ -9,6 +9,7 @@ class CreateService extends StatefulWidget {
 }
 
 class _CreateServiceState extends State<CreateService> {
+  String? _errorText;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nombreController = TextEditingController();
   final TextEditingController _descripcionController = TextEditingController();
@@ -31,23 +32,87 @@ class _CreateServiceState extends State<CreateService> {
               TextFormField(
                 controller: _nombreController,
                 decoration: const InputDecoration(labelText: 'Nombre'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    
+                    setState(() {
+                      _errorText = 'Por favor, ingresa un nombre';
+                    });
+                    return 'Por favor, ingresa un nombre'; 
+                  }
+                  
+                  setState(() {
+                    _errorText = null;
+                  });
+                  return null;
+                },
               ),
+
+              
+
               TextFormField(
                 controller: _descripcionController,
-                decoration: InputDecoration(labelText: 'Descripción'),
+                decoration: const InputDecoration(labelText: 'Descripción'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    setState(() {
+                      _errorText = 'Por favor, ingresa una descripción';
+                    });
+                    return 'Por favor, ingresa una descripción'; 
+                  }
+                  
+                  setState(() {
+                    _errorText = null;
+                  });
+                  return null;
+                },
               ),
+
               TextFormField(
                 controller: _precioController,
-                decoration: InputDecoration(labelText: 'Precio'),
+                decoration: const InputDecoration(labelText: 'Precio'),
                 keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    setState(() {
+                      _errorText = 'Por favor, ingresa un precio';
+                    });
+                    return 'Por favor, ingresa un precio'; 
+                  }
+                  
+                  setState(() {
+                    _errorText = null;
+                  });
+                  return null;
+                },
               ),
               TextFormField(
                 controller: _estadoController,
                 decoration: const InputDecoration(labelText: 'Estado'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    setState(() {
+                      _errorText = 'Ingrese el campo faltante';
+                    });
+                    return 'Por favor, ingresa un estado'; 
+                  }
+                  
+                  setState(() {
+                    _errorText = null;
+                  });
+                  return null;
+                },
+              ),
+              Text(
+                _errorText ?? '', 
+                style: TextStyle(color: Colors.red),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
+
+                
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
                   final Map<String, dynamic> crearServicio = {
                     'nombre': _nombreController.text,
                     'descripcion': _descripcionController.text,
@@ -65,26 +130,27 @@ class _CreateServiceState extends State<CreateService> {
                   } catch (e) {
                     print('El registro no fue exitoso');
                   }
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.deepPurple,
-                ),
-                child: const Text('Crear'),
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.deepPurple,
               ),
-              const SizedBox(height: 10),
+              child: const Text('Crear'),
+            ),
+            const SizedBox(height: 10),
               TextButton(
                 onPressed: () {
                   Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => MenuLateral()),
-          );
+                );
                 },
                 style: TextButton.styleFrom(
                   primary: Colors.deepPurple,
                 ),
                 child: const Text('Regresar'),
               ),
-            ],
+            ],  
           ),
         ),
       ),

@@ -21,6 +21,10 @@ class _EditarProductoState extends State<EditarProducto> {
   final TextEditingController _descripcionController = TextEditingController();
   final TextEditingController _precioController = TextEditingController();
   final TextEditingController _estadoController = TextEditingController();
+  String? _errorTextNombre;
+  String? _errorTextDescripcion;
+  String? _errorTextPrecio;
+  String? _errorTextEstado;
 
   @override
   void initState() {
@@ -49,32 +53,97 @@ class _EditarProductoState extends State<EditarProducto> {
           child: Column(
             children: [
               TextFormField(
-                controller: _nombreController,
-                decoration: const InputDecoration(labelText: 'Nombre'),
-              ),
-              TextFormField(
-                controller: _descripcionController,
-                decoration: InputDecoration(labelText: 'Descripción'),
-              ),
-              TextFormField(
-                controller: _precioController,
-                decoration: InputDecoration(labelText: 'Precio'),
-                keyboardType: TextInputType.number,
-              ),
-              TextFormField(
-                controller: _estadoController,
-                decoration: const InputDecoration(labelText: 'Estado'),
-              ),
+              controller: _nombreController,
+              decoration: const InputDecoration(labelText: 'Nombre'),
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  setState(() {
+                    _errorTextNombre = 'Por favor, ingresa un nombre';
+                  });
+                  return 'Por favor, ingresa un nombre';
+                }
+
+                setState(() {
+                  _errorTextNombre = null;
+                });
+                return null;
+              },
+            ),
+
+            TextFormField(
+              controller: _descripcionController,
+              decoration: InputDecoration(labelText: 'Descripción'),
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  setState(() {
+                    _errorTextDescripcion = 'Por favor, ingresa una descripción';
+                  });
+                  return 'Por favor, ingresa una descripción';
+                }
+
+                setState(() {
+                  _errorTextDescripcion = null;
+                });
+                return null;
+              },
+            ),
+
+            TextFormField(
+              controller: _precioController,
+              decoration: InputDecoration(labelText: 'Precio'),
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  setState(() {
+                    _errorTextPrecio = 'Por favor, ingresa un precio';
+                  });
+                  return 'Por favor, ingresa un precio';
+                }
+
+              
+
+                setState(() {
+                  _errorTextPrecio = null;
+                });
+                return null;
+              },
+            ),
+
+            TextFormField(
+              controller: _estadoController,
+              decoration: const InputDecoration(labelText: 'Estado'),
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  setState(() {
+                    _errorTextEstado = 'Por favor, ingresa un estado';
+                  });
+                  return 'Por favor, ingresa un estado';
+                }
+
+                setState(() {
+                  _errorTextEstado = null;
+                });
+                return null;
+              },
+            ),
+
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                  final String nombre = _nombreController.text;
+                  final String descripcion = _descripcionController.text;
+                  final double precio = double.parse(_precioController.text);
+                  final String estado = _estadoController.text;
+
                   final Map<String, dynamic> productoEditado = {
-                    '_id': widget.producto['_id'],
-                    'nombre': _nombreController.text,
-                    'descripcion': _descripcionController.text,
-                    'precio': _precioController.text,
-                    'estado': _estadoController.text,
+                    '_id': widget.producto['_id'], 
+                    'nombre': nombre,
+                    'descripcion': descripcion,
+                    'precio': precio,
+                    'estado': estado,
                   };
+                  
 
                   final api = new Producto();
                   try {
@@ -86,12 +155,14 @@ class _EditarProductoState extends State<EditarProducto> {
                   } catch (e) {
                     print('No se modificó el registro de manera exitosa');
                   }
+                }
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.deepPurple,
                 ),
                 child: const Text('Editar'),
               ),
+              
               const SizedBox(height: 10),
               TextButton(
                 onPressed: () {
