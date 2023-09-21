@@ -21,8 +21,8 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset(
-              'assets/LogoLT.png',
+            Image.network(
+              'https://i.ibb.co/QYyw7JG/Logo-sobre-moda-femenina-minimalista-neutral.png',
               width: 200,
               height: 200,
             ),
@@ -46,7 +46,7 @@ class MenuLateral extends StatelessWidget {
         children: [
           DrawerHeader(
             decoration: const BoxDecoration(
-              color: Colors.deepPurple,
+              color: Colors.white,
             ),
             child: Center(
               child: SingleChildScrollView(
@@ -55,8 +55,8 @@ class MenuLateral extends StatelessWidget {
                   children: [
                     Align(
                     alignment: Alignment.center,
-                    child: Image.asset(
-                      'assets/LogoLT.png',
+                    child: Image.network(
+                      'https://i.ibb.co/QYyw7JG/Logo-sobre-moda-femenina-minimalista-neutral.png',
                       width: 200,
                       height: 200,
                     ),
