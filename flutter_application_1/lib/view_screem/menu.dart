@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/view_screem/Home.dart';
 import 'package:flutter_application_1/view_screem/HomePaq.dart';
 import 'package:flutter_application_1/view_screem/HomeProd.dart';
+import 'package:flutter_application_1/view_screem/camara.dart';
+import 'package:flutter_application_1/view_screem/gps.dart';
 import 'package:flutter_application_1/view_screem/login.dart';
 
 
@@ -114,8 +116,28 @@ class MenuLateral extends StatelessWidget {
                   );
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.camera_alt),
+            title: const Text("Camara"),
+            onTap: () {
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const CameraApp()),
+                  );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.map),
+            title: const Text("GPS"),
+            onTap: () {
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MapScreen()),
+                  );
+            },
+          ),
           Container(
-            margin: const EdgeInsets.only(bottom: 180.0),
+            margin: const EdgeInsets.only(bottom: 130.0),
             child: const Divider()),
           ListTile(
             leading: const Icon(Icons.logout),
@@ -123,7 +145,7 @@ class MenuLateral extends StatelessWidget {
             onTap: () {
               Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Registrar()),
+              MaterialPageRoute(builder: (context) => HomeScreen()),
                   );
               
             },
